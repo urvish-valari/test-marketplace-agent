@@ -1,0 +1,20 @@
+{
+  "name": "test-marketplace-agent",
+  "version": "1.0.0",
+  "description": "A publicly exposed test AI agent API endpoint for validating AI agent marketplace integrations",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.18.2"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.2"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

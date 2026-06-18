@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Test Marketplace Agent</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- Header -->
+  <header>
+    <div class="header-inner">
+      <div class="agent-badge">
+        <span class="dot" id="statusDot"></span>
+        <span id="statusLabel">Checking...</span>
+      </div>
+      <div class="header-title">
+        <h1>Test Marketplace Agent</h1>
+        <p>Reference seller endpoint for AI agent marketplace integration testing</p>
+      </div>
+      <div class="version-badge">v1.0.0</div>
+    </div>
+  </header>
+
+  <main>
+
+    <!-- Left panel: API Docs -->
+    <aside class="docs-panel">
+      <h2>API Reference</h2>
+
+      <div class="doc-section">
+        <h3>GET /health</h3>
+        <p>Ping to verify the agent is online. Marketplaces use this for uptime monitoring.</p>
+        <a class="try-btn" href="/health" target="_blank">Try it →</a>
+      </div>
+
+      <div class="doc-section">
+        <h3>GET /agent/info</h3>
+        <p>Returns agent metadata — name, capabilities, pricing model, and the chat endpoint the marketplace should call.</p>
+        <a class="try-btn" href="/agent/info" target="_blank">Try it →</a>
+      </div>
+
+      <div class="doc-section">
+        <h3>POST /v1/chat</h3>
+        <p>Primary chat endpoint. The marketplace proxies the buyer's message here and returns the response.</p>
+        <div class="code-block">
+          <div class="code-label">Request body</div>
+          <pre>{
+  "session_id": "abc123",
+  "message": "Hello!",
+  "history": []
+}</pre>
+        </div>
+        <div class="code-block">
+          <div class="code-label">Response</div>
+          <pre>{
+  "status": "success",
+  "reply": "Hello! I'm a demo...",
+  "session_id": "abc123",
+  "metadata": {
+    "model": "test-agent-v1",
+    "tokens_used": 48,
+    "response_time_ms": 34,
+    "timestamp": "..."
+  }
+}</pre>
+        </div>
+      </div>
+
+      <div class="doc-section">
+        <h3>Integration Flow</h3>
+        <ol class="flow-list">
+          <li>Marketplace fetches <code>/agent/info</code></li>
+          <li>Buyer sends a message on marketplace UI</li>
+          <li>Marketplace POSTs to <code>/v1/chat</code></li>
+          <li>This agent responds with <code>reply</code></li>
+          <li>Marketplace displays it to the buyer</li>
+        </ol>
+      </div>
+    </aside>
+
+    <!-- Right panel: Chat -->
+    <section class="chat-panel">
+      <div class="chat-header">
+        <span>Live Chat Test</span>
+        <span class="sub">Simulates how a buyer would interact via the marketplace</span>
+      </div>
+
+      <div class="chat-messages" id="messages">
+        <div class="message agent">
+          <div class="bubble">
+            Hello! I'm the test marketplace agent. Send me a message and I'll respond through the <code>POST /v1/chat</code> endpoint — just like a real marketplace integration would work.
+          </div>
+        </div>
+      </div>
+
+      <div class="chat-input-row">
+        <input
+          type="text"
+          id="userInput"
+          placeholder="Type a message and press Enter..."
+          autocomplete="off"
+        />
+        <button id="sendBtn">Send</button>
+      </div>
+
+      <div class="raw-response-wrapper">
+        <div class="raw-label" id="rawToggle" onclick="toggleRaw()">
+          Show raw API response ▼
+        </div>
+        <pre class="raw-response" id="rawResponse" style="display:none;"></pre>
+      </div>
+    </section>
+
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
